@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.Manifest
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
@@ -14,6 +16,7 @@ import com.auth0.android.request.DefaultClient
 import com.auth0.android.result.Credentials
 import com.auth0.sample.databinding.FragmentDatabaseLoginBinding
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -45,11 +48,17 @@ class DatabaseLoginFragment : Fragment() {
         binding.buttonWebAuth.setOnClickListener {
             webAuth()
         }
-        binding.buttonWebLogout.setOnClickListener {
-            webLogout()
+        binding.requestPermission.setOnClickListener {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ),
+                999)
         }
         return binding.root
     }
+
 
     private fun dbLogin(email: String, password: String) {
         apiClient.login(email, password, "Username-Password-Authentication")
